@@ -11,6 +11,22 @@ import mushroomIcon from './sprites/mushroomIcon.png';
 import oliveIcon from './sprites/oliveIcon.png';
 import pepperIcon from './sprites/pepperIcon.png';
 import pizzaBase from './sprites/base.png';
+import sauce from './sprites/sauce.png';
+import cheese from './sprites/cheese.png';
+import mushroom from './sprites/mushroom.png';
+import pepperoni from './sprites/pepperoni.png';
+import pepper from './sprites/pepper.png';
+import olive from './sprites/olive.png';
+
+const sprites = {
+    pizzaBase,
+    sauce,
+    cheese,
+    pepperoni,
+    mushroom,
+    pepper,
+    olive
+}
 
 function Header({user}) {
     return (
@@ -103,11 +119,21 @@ function App() {
     const user = true;  //remove once user login is done
 
     const handleClick = (ingredient) => {
+        const pizzaContainer = document.getElementById("pizza-container");
+
         if (ingredients[ingredient] > 0) {
             setIngredients(prev => ({
                 ...prev,
                 [ingredient]: prev[ingredient] - 1,
             }))
+
+            const topping = document.createElement('img');
+            topping.src = sprites[ingredient];
+            topping.alt = ingredient;
+            topping.className = 'topping';
+            topping.id = ingredient;
+            pizzaContainer.appendChild(topping);
+            console.log("added topping");
         } else {
             setIngredients(prev => ({
                 ...prev,

@@ -62,7 +62,65 @@
   background-color: blanchedalmond;
   height: 500px;
   width: 600px;
-  align-content: center;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+#pizza-container img.base {
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  height: 400px;
+}
+
+#sauce {
+  position: absolute;
+  z-index: 2;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
+}
+
+#cheese {
+  position: absolute;
+  z-index: 3;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
+}
+
+#pepperoni {
+  position: absolute;
+  z-index: 4;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
+}
+
+#mushroom {
+  position: absolute;
+  z-index: 5;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
+}
+
+#pepper {
+  position: absolute;
+  z-index: 5;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
+}
+
+#olive {
+  position: absolute;
+  z-index: 5;
+  height: 400px;
+  width: 400px;
+  pointer-events: none;
 }
 
 #oven-container {

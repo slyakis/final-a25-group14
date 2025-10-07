@@ -1,14 +1,21 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.css'
 import Timer from './Timer'
 import "nes.css/css/nes.min.css"
 import OrderList from './components/OrderList.jsx';
 import {generateOrder} from "./generateOrder.jsx";
+import sauceIcon from './sprites/sauceIcon.png';
+import cheeseIcon from './sprites/cheeseIcon.png';
+import pepperoniIcon from './sprites/pepperoniIcon.png';
+import mushroomIcon from './sprites/mushroomIcon.png';
+import oliveIcon from './sprites/oliveIcon.png';
+import pepperIcon from './sprites/pepperIcon.png';
+import pizzaBase from './sprites/base.png';
 
 function Header({user}) {
     return (
-        <div>
-            <span className="nes-text is-primary" id="header">Bad Pizza, Sad Pizza</span>
+        <div className="header">
+            <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
             <p id="userInfo">Welcome {user}!</p>
         </div>
     )
@@ -43,16 +50,28 @@ function GameplayArea({handleClick, orders}) {
                 </div>
             </div>
             <div className="ingredients">
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('sauce')}>Sauce</button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('cheese')}>Cheese</button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepperoni')}>Pepperoni</button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('mushroom')}>Mushroom</button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepper')}>Pepper</button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('olive')}>Olive</button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('sauce')}>Sauce
+                    <img className="icon" src={sauceIcon} alt="sauce" />
+                </button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('cheese')}>Cheese
+                    <img className="icon" src={cheeseIcon} alt="cheese" />
+                </button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepperoni')}>Pepperoni
+                    <img className="icon" src={pepperoniIcon} alt="pepperoni" />
+                </button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('mushroom')}>Mushroom
+                    <img className="icon" src={mushroomIcon} alt="mushroom" />
+                </button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepper')}>Pepper
+                    <img className="icon" src={pepperIcon} alt="pepper" />
+                </button>
+                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('olive')}>Olive
+                    <img className="icon" src={oliveIcon} alt="olive" />
+                </button>
             </div>
             <div className="pizza">
                 <div id="pizza-container" className="nes-container is-rounded">
-                    <p>insert pizza here</p>
+                    <img src={pizzaBase} alt="pizza base" style={{ width: '400px', height: '400px' }} />
                 </div>
             </div>
             <div className="oven">

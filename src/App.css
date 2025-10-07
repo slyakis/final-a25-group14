@@ -23,8 +23,11 @@
   text-align: left;
   align-content: center;
   display: grid;
-  padding-right: 36px;
+  grid-template-columns: repeat(2, 1fr);
+  padding-right: 40px;
   gap: 16px;
+  justify-items: center;
+  margin-top: 10px;
 }
 
 .container div.pizza {
@@ -38,13 +41,14 @@
 
 .container div.footer {
   grid-area: footer;
+  padding-top: 30px;
 }
 
 #mainHeader {
   font-size: 50px;
 }
 
-#header {
+#title {
   font-size: 30px;
   text-align: left;
   margin: 30px;
@@ -58,6 +62,7 @@
   background-color: blanchedalmond;
   height: 500px;
   width: 600px;
+  align-content: center;
 }
 
 #oven-container {
@@ -75,4 +80,16 @@
 .toppingIcons {
   display: flex;
   padding: 2px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.ingredients button {
+  width: 100%;
+  max-width: 120px;
+  align-items: center;
+  font-size: 10px;
 }

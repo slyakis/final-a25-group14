@@ -180,3 +180,28 @@
   height: 100px;
   width: 100px;
 }
+
+.pizza {
+  position: relative;
+  display: inline-block;
+}
+
+.topping {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  align-content: center;
+  pointer-events: none;
+}
+
+.topping-sauce {
+  z-index: 1;
+}
+
+.topping-cheese {
+  z-index: 2;
+}
+
+.topping-pepperoni, .topping-mushroom, .topping-pepper, .topping-olive {
+  z-index: 3;
+}

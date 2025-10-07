@@ -22,16 +22,20 @@ const Timer = ({ duration = 120, onTimeUp}) => {
         return () => clearInterval(timerInterval);
     }, [isRunning, timeRemaining, onTimeUp]);
 
-    const startTimer = () => {
-        if (timeRemaining > 0) setIsRunning(true);
-    }
+    // const startTimer = () => {
+    //     if (timeRemaining > 0) setIsRunning(true);
+    // }
+    //
+    // const pauseTimer = () => setIsRunning(false);
+    //
+    // const resetTimer = () => {
+    //     setIsRunning(false);
+    //     setTimeRemaining(duration);
+    // }
 
-    const pauseTimer = () => setIsRunning(false);
-
-    const resetTimer = () => {
-        setIsRunning(false);
-        setTimeRemaining(duration);
-    }
+    const toggleTimer = () => {
+        setIsRunning((prev) => !prev);
+    };
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
@@ -60,21 +64,13 @@ const Timer = ({ duration = 120, onTimeUp}) => {
                 {formatTime(timeRemaining)}
             </p>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                {!isRunning && timeRemaining > 0 && (
-                    <button className="nes-btn is-success" onClick={startTimer}>
-                        Start
-                    </button>
-                )}
-                {isRunning && (
-                    <button className="nes-btn is-warning" onClick={pauseTimer}>
-                        Pause
-                    </button>
-                )}
-                <button className="nes-btn is-error" onClick={resetTimer}>
-                    Reset
-                </button>
-            </div>
+            <button
+                type="button"
+                className={`nes-btn ${isRunning ? "is-warning" : "is-success"}`}
+                onClick={toggleTimer}
+            >
+                {isRunning ? "Pause" : "Resume"}
+            </button>
         </div>
     );
 };

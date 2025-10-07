@@ -15,7 +15,6 @@ export default function OrderList({ orders }) {
                 backgroundColor: '#f9f9f9',
             }}
         >
-            <p className="title">Orders</p>
             {orders.map(order => (
                 <OrderCard key={order.id} order={order} />
             ))}

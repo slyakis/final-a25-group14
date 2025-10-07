@@ -1,15 +1,19 @@
 import React from 'react';
 import 'nes.css/css/nes.min.css';
+import sauceIcon from '../sprites/sauceIcon.png';
+import cheeseIcon from '../sprites/cheeseIcon.png';
+import pepperoniIcon from '../sprites/pepperoniIcon.png';
+import mushroomIcon from '../sprites/mushroomIcon.png';
+import oliveIcon from '../sprites/oliveIcon.png';
+import pepperIcon from '../sprites/pepperIcon.png';
 
 const TOPPING_SPRITES = {
-    sauce: '/sprites/sauce.png',
-    cheese: '/sprites/cheese.png',
-    pepperoni: '/sprites/pepperoni.png',
-    mushrooms: '/sprites/mushrooms.png',
-    olives: '/sprites/olives.png',
-    onions: '/sprites/onions.png',
-    peppers: '/sprites/peppers.png',
-    sausage: '/sprites/sausage.png',
+    sauce: sauceIcon,
+    cheese: cheeseIcon,
+    pepperoni: pepperoniIcon,
+    mushrooms: mushroomIcon,
+    olives: oliveIcon,
+    peppers: pepperIcon
 };
 
 export default function OrderCard({ order }) {
@@ -29,12 +33,14 @@ export default function OrderCard({ order }) {
                 }}
             >
                 {order.toppings.map((topping, index) => (
-                    <div key={index} style={{ textAlign: 'center' }}>
+                    <div className="toppingIcons" key={index} style={{ textAlign: 'center', fontSize: '10px'}}>
                         <img
                             src={TOPPING_SPRITES[topping]}
                             alt={topping}
                             style={{ width: '24px', height: '24px' }}
+
                         />
+                        <p>{topping}</p>
                     </div>
                 ))}
             </div>

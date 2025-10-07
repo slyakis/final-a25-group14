@@ -1,5 +1,4 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -16,14 +15,16 @@
 .container div.orders {
   grid-area: orders;
   display: inline-flex;
-  padding-bottom: 14px;
-  background-color: lightgray;
+  padding-bottom: 24px;
 }
 
 .container div.ingredients {
   grid-area: ingredients;
   text-align: left;
   align-content: center;
+  display: grid;
+  padding-right: 36px;
+  gap: 16px;
 }
 
 .container div.pizza {
@@ -56,7 +57,7 @@
 #pizza-container {
   background-color: blanchedalmond;
   height: 500px;
-  width: 500px;
+  width: 600px;
 }
 
 #oven-container {
@@ -69,4 +70,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.toppingIcons {
+  display: flex;
+  padding: 2px;
 }

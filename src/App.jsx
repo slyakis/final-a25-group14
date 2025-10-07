@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 import Timer from './Timer'
 import "nes.css/css/nes.min.css"
+import OrderList from './components/OrderList.jsx';
+import {generateOrder} from "./generateOrder.jsx";
 
 function Header({user}) {
     return (
@@ -26,7 +28,7 @@ function HomePage({user}) {
     )
 }
 
-function GameplayArea({handleClick}) {
+function GameplayArea({handleClick, orders}) {
     const handleTimeUp = () => {
         alert("Time's Up!");
     };
@@ -35,15 +37,7 @@ function GameplayArea({handleClick}) {
         <div className="nes-container with-title is-centered container">
             <p className="title">Gameplay Area</p>
             <div className="orders">
-                <div className="nes-container is-rounded">
-                    <p>Order #1</p>
-                </div>
-                <div className="nes-container is-rounded">
-                    <p>Order #2</p>
-                </div>
-                <div className="nes-container is-rounded">
-                    <p>Order #3</p>
-                </div>
+                <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
                     <Timer duration={120} onTimeUp={handleTimeUp} />
                 </div>
@@ -83,11 +77,13 @@ function App() {
         pepper: 10,
         olive: 10
     })
+    const [orders, setOrders] = useState(() =>
+        Array.from({length: 3}, () => generateOrder())
+    );
 
-    const user = true;
+    const user = true;  //remove once user login is done
 
     const handleClick = (ingredient) => {
-        console.log(ingredient);
         if (ingredients[ingredient] > 0) {
             setIngredients(prev => ({
                 ...prev,
@@ -112,7 +108,7 @@ function App() {
     return (
         <div className="gamePage">
             <Header user={user} />
-            <GameplayArea handleClick={handleClick} />
+            <GameplayArea handleClick={handleClick} orders={orders} />
         </div>
     )
 }

@@ -23,6 +23,7 @@
 .container div.ingredients {
   grid-area: ingredients;
   text-align: left;
+  align-content: center;
 }
 
 .container div.pizza {
@@ -31,7 +32,7 @@
 
 .container div.oven {
   grid-area: oven;
-  background-color: gray;
+  align-content: center;
 }
 
 .container div.footer {
@@ -50,4 +51,22 @@
 
 #userInfo {
   text-align: right;
+}
+
+#pizza-container {
+  background-color: blanchedalmond;
+  height: 500px;
+  width: 500px;
+}
+
+#oven-container {
+  background-color: gray;
+  height: 380px;
+  width: 380px;
+}
+
+#timer-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

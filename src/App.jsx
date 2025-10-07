@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import Timer from './Timer'
 import "nes.css/css/nes.min.css"
 
 function Header({user}) {
@@ -26,6 +27,10 @@ function HomePage({user}) {
 }
 
 function GameplayArea({handleClick}) {
+    const handleTimeUp = () => {
+        alert("Time's Up!");
+    };
+
     return (
         <div className="nes-container with-title is-centered container">
             <p className="title">Gameplay Area</p>
@@ -39,6 +44,9 @@ function GameplayArea({handleClick}) {
                 <div className="nes-container is-rounded">
                     <p>Order #3</p>
                 </div>
+                <div id="timer-container" className="nes-container is-rounded">
+                    <Timer duration={120} onTimeUp={handleTimeUp} />
+                </div>
             </div>
             <div className="ingredients">
                 <button type="button" className="nes-btn is-primary" onClick={() => handleClick('sauce')}>Sauce</button>
@@ -49,13 +57,13 @@ function GameplayArea({handleClick}) {
                 <button type="button" className="nes-btn is-primary" onClick={() => handleClick('olive')}>Olive</button>
             </div>
             <div className="pizza">
-                <div className="nes-container is-rounded">
-                    <p>insert pizza here <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/></p>
+                <div id="pizza-container" className="nes-container is-rounded">
+                    <p>insert pizza here</p>
                 </div>
             </div>
             <div className="oven">
-                <div className="nes-container is-rounded">
-                    <p>insert oven here <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/></p>
+                <div id="oven-container" className="nes-container is-rounded">
+                    <p>insert oven here</p>
                 </div>
             </div>
             <div className="footer">

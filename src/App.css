@@ -151,3 +151,32 @@
   align-items: center;
   font-size: 10px;
 }
+
+.ingredients {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 20px;
+  justify-items: center;
+  margin-top: 10px;
+}
+
+.ingredient-pair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredient-pair .nes-btn {
+  margin: 3px 0;
+}
+
+.buy-btn {
+  height: 35px;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.ingredient-btn {
+  height: 100px;
+  width: 100px;
+}

@@ -51,7 +51,7 @@ function HomePage({user}) {
     )
 }
 
-function GameplayArea({handleClick, orders}) {
+function GameplayArea({handleClick, handleBuy, orders, ingredients}) {
     const handleTimeUp = () => {
         alert("Time's Up!");
     };
@@ -59,42 +59,75 @@ function GameplayArea({handleClick, orders}) {
     return (
         <div className="nes-container with-title is-centered container">
             <p className="title">Gameplay Area</p>
+
+            {/* Orders */}
             <div className="orders">
                 <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
                     <Timer duration={120} onTimeUp={handleTimeUp} />
                 </div>
             </div>
-            <div className="ingredients">
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('sauce')}>Sauce
-                    <img className="icon" src={sauceIcon} alt="sauce" />
-                </button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('cheese')}>Cheese
-                    <img className="icon" src={cheeseIcon} alt="cheese" />
-                </button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepperoni')}>Pepperoni
-                    <img className="icon" src={pepperoniIcon} alt="pepperoni" />
-                </button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('mushroom')}>Mushroom
-                    <img className="icon" src={mushroomIcon} alt="mushroom" />
-                </button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('pepper')}>Pepper
-                    <img className="icon" src={pepperIcon} alt="pepper" />
-                </button>
-                <button type="button" className="nes-btn is-primary" onClick={() => handleClick('olive')}>Olive
-                    <img className="icon" src={oliveIcon} alt="olive" />
-                </button>
+
+            {/* Ingredients & Buy */}
+            <div id="ingredient-container" className="ingredients">
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('sauce')}>Sauce: {ingredients.sauce}
+                        <br/><img className="icon" src={sauceIcon} alt="sauce" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy</button>
+                </div>
+
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('cheese')}>Cheese: {ingredients.cheese}
+                        <br/><img className="icon" src={cheeseIcon} alt="cheese" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy</button>
+                </div>
+
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepperoni')}>Pepperoni: {ingredients.pepperoni}
+                        <br/><img className="icon" src={pepperoniIcon} alt="pepperoni" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy</button>
+                </div>
+
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('mushroom')}>Mushroom: {ingredients.mushroom}
+                        <br/><img className="icon" src={mushroomIcon} alt="mushroom" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy</button>
+                </div>
+
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepper')}>Pepper: {ingredients.pepper}
+                        <br/><img className="icon" src={pepperIcon} alt="pepper" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy</button>
+                </div>
+
+                <div className="ingredient-pair">
+                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('olive')}>Olive: {ingredients.olive}
+                        <br/><img className="icon" src={oliveIcon} alt="olive" />
+                    </button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy</button>
+                </div>
             </div>
+
+            {/* Pizza */}
             <div className="pizza">
                 <div id="pizza-container" className="nes-container is-rounded">
                     <img src={pizzaBase} alt="pizza base" style={{ width: '400px', height: '400px' }} />
                 </div>
             </div>
+
+            {/* Oven */}
             <div className="oven">
                 <div id="oven-container" className="nes-container is-rounded">
                     <p>insert oven here</p>
                 </div>
             </div>
+
+            {/* Bake/Sell Buttons */}
             <div className="footer">
                 <button type="button" className="nes-btn is-error">Bake</button>
                 <button type="button" className="nes-btn is-success">Sell</button>
@@ -105,16 +138,19 @@ function GameplayArea({handleClick, orders}) {
 
 function App() {
     const [ingredients, setIngredients] = useState({
-        sauce:10,
+        sauce: 10,
         cheese: 10,
         pepperoni: 10,
         mushroom: 10,
         pepper: 10,
         olive: 10
     })
+
     const [orders, setOrders] = useState(() =>
         Array.from({length: 3}, () => generateOrder())
     );
+
+    const [revenue, setRevenue] = useState(20)
 
     const user = true;  //remove once user login is done
 
@@ -135,9 +171,25 @@ function App() {
             pizzaContainer.appendChild(topping);
             console.log("added topping");
         } else {
-            setIngredients(prev => ({
+            alert(ingredient + " needs to be restocked!");
+        }
+    }
+
+    const handleBuy = (ingredient) => {
+        setIngredients(prev => ({
+            ...prev,
+            [ingredient]: prev[ingredient] + 5,
+        }))
+
+        if (ingredient === 'pepperoni' || ingredient === 'mushroom') {
+            setRevenue(prev => ({
                 ...prev,
-                [ingredient]: prev[ingredient] + 5,
+                [revenue]: prev[revenue] - 8,
+            }))
+        } else if (ingredient === 'olive' || ingredient === 'pepper') {
+            setRevenue(prev => ({
+                ...prev,
+                [revenue]: prev[revenue] - 4,
             }))
         }
     }
@@ -153,7 +205,7 @@ function App() {
     return (
         <div className="gamePage">
             <Header user={user} />
-            <GameplayArea handleClick={handleClick} orders={orders} />
+            <GameplayArea handleClick={handleClick} handleBuy={handleBuy} orders={orders} ingredients={ingredients} />
         </div>
     )
 }

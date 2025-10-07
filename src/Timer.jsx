@@ -69,7 +69,7 @@ const Timer = ({ duration = 120, onTimeUp}) => {
                 className={`nes-btn ${isRunning ? "is-warning" : "is-success"}`}
                 onClick={toggleTimer}
             >
-                {isRunning ? "Pause" : "Resume"}
+                {isRunning ? "Pause" : "Start"}
             </button>
         </div>
     );

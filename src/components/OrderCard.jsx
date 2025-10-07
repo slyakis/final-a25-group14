@@ -32,7 +32,7 @@ export default function OrderCard({ order }) {
                     <div key={index} style={{ textAlign: 'center' }}>
                         <img
                             src={TOPPING_SPRITES[topping]}
-                            alt=' ${topping}'
+                            alt={topping}
                             style={{ width: '24px', height: '24px' }}
                         />
                     </div>

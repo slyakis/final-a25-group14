@@ -64,8 +64,10 @@
   width: 600px;
   align-items: center;
   position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
+  pointer-events: none;
 }
 
 #pizza-container img.base {
@@ -73,6 +75,43 @@
   z-index: 1;
   width: 400px;
   height: 400px;
+}
+
+.whole-pizza {
+  z-index: 2;
+  transition: transform 2s ease-in-out;
+  height: 500px;
+  width: 600px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.whole-pizza.baking {
+  transform: translateX(616px);
+  z-index: 1;
+}
+
+#oven {
+  z-index: 10;
+}
+
+.oven-container {
+  position: relative;
+  z-index: 10;
+}
+
+.kitchen {
+  display: flex;
+  align-items: flex-end;
+  gap: 60px;
+  position: relative;
+}
+
+.pizza-container, .oven-container {
+  margin: 0;
+  padding: 0;
 }
 
 #sauce {
@@ -207,17 +246,11 @@ button.nes-btn.ingredient-btn {
   z-index: 3;
 }
 
-.kitchen {
-  display: flex;
-  align-items: flex-end;
-  gap: 60px;
-}
-
-.pizza-container, .oven-container {
-  margin: 0;
-  padding: 0;
-}
-
 .footer .nes-btn {
   margin: 10px;
+}
+
+button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
 }

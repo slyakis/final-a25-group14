@@ -53,7 +53,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                     Leaderboard
                 </button>
             </div>
-            <p id="userInfo">Welcome {user.username}!</p>
+            {/*<p id="userInfo">Welcome {user.username}!</p>*/}
             <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
@@ -73,7 +73,7 @@ function HomePage() {
     )
 }
 
-function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp, handleBake, isBaking}) {
     const handleTimeUp = () => {
         onTimeUp();
     };
@@ -91,42 +91,42 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
             {/* Ingredients & Buy */}
             <div id="ingredient-container" className="ingredients">
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('sauce')}>Sauce: {ingredients.sauce}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('sauce')}>Sauce: {ingredients.sauce}
                         <br/><img className="icon" src={sauceIcon} alt="sauce" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('cheese')}>Cheese: {ingredients.cheese}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('cheese')}>Cheese: {ingredients.cheese}
                         <br/><img className="icon" src={cheeseIcon} alt="cheese" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepperoni')}>Pepperoni: {ingredients.pepperoni}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('pepperoni')}>Pepperoni: {ingredients.pepperoni}
                         <br/><img className="icon" src={pepperoniIcon} alt="pepperoni" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('mushroom')}>Mushroom: {ingredients.mushroom}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('mushroom')}>Mushroom: {ingredients.mushroom}
                         <br/><img className="icon" src={mushroomIcon} alt="mushroom" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepper')}>Pepper: {ingredients.pepper}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('pepper')}>Pepper: {ingredients.pepper}
                         <br/><img className="icon" src={pepperIcon} alt="pepper" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy 5/$4</button>
                 </div>
 
                 <div className="ingredient-pair">
-                    <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('olive')}>Olive: {ingredients.olive}
+                    <button type="button" className="nes-btn is-primary ingredient-btn" disabled={isBaking} onClick={() => handleClick('olive')}>Olive: {ingredients.olive}
                         <br/><img className="icon" src={oliveIcon} alt="olive" />
                     </button>
                     <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy 5/$4</button>
@@ -136,31 +136,33 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
             <div className="kitchen">
                 {/* Pizza */}
                 <div id="pizza-container" className="nes-container is-rounded pizza-container">
-                    <img src={pizzaBase}
-                         alt="pizza base"
-                         className="pizza-base"
-                         style={{ width: '400px', height: '400px' }} />
-                    {currentPizza.map((ingredient, index) => (
-                        <img
-                            key={index}
-                            src={sprites[ingredient]}
-                            alt={ingredient}
-                            className={`topping topping-${ingredient}`}
-                        />
-                    ))}
+                    <div className={`whole-pizza ${isBaking ? 'baking' : ''}`}>
+                        <img src={pizzaBase}
+                             alt="pizza base"
+                             className="pizza-base"
+                             style={{ width: '400px', height: '400px' }} />
+                        {currentPizza.map((ingredient, index) => (
+                            <img
+                                key={index}
+                                src={sprites[ingredient]}
+                                alt={ingredient}
+                                className={`topping topping-${ingredient}`}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 {/* Oven */}
                 <div className="oven-container">
-                    <img src={oven} alt="oven" style={{ width: '505px', height: '505px' }} />
+                    <img id="oven" src={oven} alt="oven" style={{ width: '505px', height: '505px' }} />
                 </div>
             </div>
 
             {/* Bake/Sell Buttons */}
             <div className="footer">
-                <button type="button" className="nes-btn is-error" style={{ float: 'left' }} onClick={() => handleTrash()}>Trash</button>
-                <button type="button" className="nes-btn is-error">Bake</button>
-                <button type="button" className="nes-btn is-success" onClick={handleSell}>Sell</button>
+                <button type="button" className="nes-btn is-error" style={{ float: 'left' }} disabled={isBaking} onClick={() => handleTrash()}>Trash</button>
+                <button type="button" className="nes-btn is-error" disabled={isBaking} onClick={() => handleBake()}>Bake</button>
+                <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell</button>
             </div>
 
             <br/>
@@ -190,6 +192,8 @@ function App() {
     const [pizzasSold, setPizzasSold] = useState(0)
     const [activeTab, setActiveTab] = useState('game')
     const [popupMessage, setPopupMessage] = useState([]);
+    const [isBaking, setIsBaking] = useState(false);
+    const [baked, setBaked] = useState(false);
 
     const showPopup = (message) => {
         const id = Date.now();
@@ -261,6 +265,11 @@ function App() {
     const handleSell = () => {
         if (orders.length === 0) return showPopup("No orders!");
 
+        if (!baked) {
+            showPopup("Pizza must be baked!");
+            return;
+        }
+
         const sortedPizza = [...currentPizza].sort();
         console.log("sorted pizza: " + sortedPizza);
 
@@ -290,6 +299,7 @@ function App() {
         }
 
         setCurrentPizza([]);
+        setBaked(false);
     };
 
     const handleTrash = () => {
@@ -317,13 +327,27 @@ function App() {
         }
     };
 
-    if(!user) {
-        return (
-            <>
-                <HomePage />
-            </>
-        )
+    const handleBake = () => {
+        if (isBaking) {
+            showPopup("Pizza is already in the oven!");
+        }
+        setIsBaking(true);
+
+        // bakes for 3 seconds
+        setTimeout(() => {
+            setIsBaking(false);
+        }, 3000)
+
+        setBaked(true);
     }
+
+    // if(!user) {
+    //     return (
+    //         <>
+    //             <HomePage />
+    //         </>
+    //     )
+    // }
 
     return (
         <div className="gamePage">
@@ -337,7 +361,10 @@ function App() {
                               ingredients={ingredients}
                               revenue={revenue}
                               currentPizza={currentPizza}
-                              onTimeUp={handleTimeUp} />
+                              onTimeUp={handleTimeUp}
+                              handleBake={handleBake}
+                              isBaking={isBaking}
+                />
             ) : (
                 <Leaderboard />
             )}

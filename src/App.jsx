@@ -189,10 +189,14 @@ function App() {
     const [_gameFinished, setGameFinished] = useState(false)
     const [pizzasSold, setPizzasSold] = useState(0)
     const [activeTab, setActiveTab] = useState('game')
-    const [popupMessage, setPopupMessage] = useState(null);
+    const [popupMessage, setPopupMessage] = useState([]);
 
     const showPopup = (message) => {
-        setPopupMessage(message);
+        const id = Date.now();
+        setPopupMessage((prev) => [...prev, { id, message }]);
+        setTimeout(() => {
+            setPopupMessage((prev) => prev.filter((p) => p.id !== id));
+        }, 1500);
     };
 
     // Load user on component mount
@@ -240,9 +244,17 @@ function App() {
         }))
 
         if (ingredient === 'pepperoni' || ingredient === 'mushroom') {
-            setRevenue(prev => prev - 8)
+            if (revenue - 8 < 0) {
+                showPopup("Insufficient funds!")
+            } else {
+                setRevenue(prev => prev - 8)
+            }
         } else if (ingredient === 'olive' || ingredient === 'pepper') {
-            setRevenue(prev => prev - 4)
+            if (revenue - 4 < 0) {
+                showPopup("Insufficient funds!")
+            } else {
+                setRevenue(prev => prev - 4)
+            }
         }
     }
 
@@ -330,12 +342,12 @@ function App() {
                 <Leaderboard />
             )}
 
-            {popupMessage && (
+            {popupMessage.map((p) => (
                 <Popup
-                    message={popupMessage}
-                    onClose={() => setPopupMessage(null)}
+                    key={p.id}
+                    message={p.message}
                 />
-            )}
+            ))}
         </div>
     )
 }

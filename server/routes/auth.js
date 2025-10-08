@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport';
+import process from "node:process";
 const router = express.Router();
 
 // GitHub authentication route
@@ -8,7 +9,7 @@ router.get('/github', passport.authenticate('github'));
 // GitHub callback route
 router.get('/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
-  (req, res) => {
+  (_req, res) => {
     // Successful authentication, redirect to game
     res.redirect(process.env.CLIENT_URL || 'http://localhost:5173');
   }

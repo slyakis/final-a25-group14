@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import User from './models/User.js';
+import process from "node:process";
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: `${process.env.BASE_URL || 'http://localhost:3001'}/auth/github/callback`
-  }, async (accessToken, refreshToken, profile, done) => {
+  }, async (_accessToken, _refreshToken, profile, done) => {
     try {
       let user = await User.findOne({ githubId: profile.id });
       
@@ -98,7 +99,7 @@ app.use('/auth', authRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 
 // Health check route
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 

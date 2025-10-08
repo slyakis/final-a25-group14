@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
-import Timer from './Timer'
+import Timer from './Timer.jsx'
 import "nes.css/css/nes.min.css"
 import OrderList from './components/OrderList.jsx';
 import Leaderboard from './components/Leaderboard.jsx';
@@ -36,12 +36,14 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
             <div className="navigation">
                 <button
+                    type="button"
                     className={`nes-btn ${activeTab === 'game' ? 'is-primary' : ''}`}
                     onClick={() => setActiveTab('game')}
                 >
                     Game
                 </button>
                 <button
+                    type="button"
                     className={`nes-btn ${activeTab === 'leaderboard' ? 'is-primary' : ''}`}
                     onClick={() => setActiveTab('leaderboard')}
                 >
@@ -49,23 +51,21 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                 </button>
             </div>
             <p id="userInfo">Welcome {user.username}!</p>
-            <button className="nes-btn is-error" onClick={onLogout}>Logout</button>
+            <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
 }
 
 function HomePage() {
     const githubAuthUrl = import.meta.env.VITE_GITHUB_AUTH_URL || 'http://localhost:3001/auth/github';
-    
+
     return (
         <div className="homePage">
-            <>
-                <span className="nes-text is-primary" id="mainHeader">Bad Pizza, Sad Pizza</span>
-                <p id="userInfo">Sign in to start!</p>
-                <div className="loginPage">
-                    <a className="nes-btn" href={githubAuthUrl} id="loginButton">Sign In with Github</a>
-                </div>
-            </>
+            <span className="nes-text is-primary" id="mainHeader">Bad Pizza, Sad Pizza</span>
+            <p id="userInfo">Sign in to start!</p>
+            <div className="loginPage">
+                <a className="nes-btn" href={githubAuthUrl} id="loginButton">Sign In with Github</a>
+            </div>
         </div>
     )
 }
@@ -184,7 +184,7 @@ function App() {
     const [revenue, setRevenue] = useState(20)
     const [currentPizza, setCurrentPizza] = useState([])
     const [user, setUser] = useState(null)
-    const [gameFinished, setGameFinished] = useState(false)
+    const [_gameFinished, setGameFinished] = useState(false)
     const [pizzasSold, setPizzasSold] = useState(0)
     const [activeTab, setActiveTab] = useState('game')
 

@@ -73,7 +73,7 @@ function HomePage() {
     )
 }
 
-function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp, handleBake, isBaking}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp, handleBake, isBaking, progress}) {
     const handleTimeUp = () => {
         onTimeUp();
     };
@@ -160,13 +160,22 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
 
             {/* Bake/Sell Buttons */}
             <div className="footer">
-                <button type="button" className="nes-btn is-error" style={{ float: 'left' }} disabled={isBaking} onClick={() => handleTrash()}>Trash</button>
-                <button type="button" className="nes-btn is-error" disabled={isBaking} onClick={() => handleBake()}>Bake</button>
-                <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell</button>
+                <button type="button" className="nes-btn is-error" style={{float: 'left'}} disabled={isBaking}
+                        onClick={() => handleTrash()}>Trash
+                </button>
+
+                <p style={{marginLeft: '40px'}}>Revenue: {revenue}</p>
+
+                <button type="button" className="nes-btn is-error" disabled={isBaking} style={{marginLeft: '300px'}}
+                        onClick={() => handleBake()}>Bake
+                </button>
+                <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell
+                </button>
+
+                <progress className="nes-progress is-warning" value={progress} max="100" style={{marginLeft: '220px'}}></progress>
             </div>
 
             <br/>
-            <p>Revenue: {revenue}</p>
         </div>
     )
 }
@@ -194,6 +203,7 @@ function App() {
     const [popupMessage, setPopupMessage] = useState([]);
     const [isBaking, setIsBaking] = useState(false);
     const [baked, setBaked] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     const showPopup = (message) => {
         const id = Date.now();
@@ -300,6 +310,7 @@ function App() {
 
         setCurrentPizza([]);
         setBaked(false);
+        setProgress(0);
     };
 
     const handleTrash = () => {
@@ -328,17 +339,27 @@ function App() {
     };
 
     const handleBake = () => {
-        if (isBaking) {
-            showPopup("Pizza is already in the oven!");
+        if (baked) {
+            showPopup("Pizza was already baked!");
+            return;
         }
+
         setIsBaking(true);
 
-        // bakes for 3 seconds
         setTimeout(() => {
-            setIsBaking(false);
-        }, 3000)
+            setProgress(0);
+            let value = 0;
 
-        setBaked(true);
+            const interval = setInterval(() => {
+                value += 5;
+                if (value >=100) {
+                    clearInterval(interval);
+                    setIsBaking(false);
+                    setBaked(true);
+                }
+                setProgress(value);
+            }, 100)
+        }, 1500)
     }
 
     if(!user) {
@@ -364,6 +385,7 @@ function App() {
                               onTimeUp={handleTimeUp}
                               handleBake={handleBake}
                               isBaking={isBaking}
+                              progress={progress}
                 />
             ) : (
                 <Leaderboard />

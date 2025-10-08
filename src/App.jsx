@@ -19,6 +19,7 @@ import mushroom from './sprites/mushroom.png';
 import pepperoni from './sprites/pepperoni.png';
 import pepper from './sprites/pepper.png';
 import olive from './sprites/olive.png';
+import oven from './sprites/oven.png';
 
 const sprites = {
     pizzaBase,
@@ -27,7 +28,8 @@ const sprites = {
     pepperoni,
     mushroom,
     pepper,
-    olive
+    olive,
+    oven
 }
 
 function Header({user, onLogout, activeTab, setActiveTab}) {
@@ -50,7 +52,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                     Leaderboard
                 </button>
             </div>
-            <p id="userInfo">Welcome {user.username}!</p>
+            {/* <p id="userInfo">Welcome {user.username}!</p> */}
             <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
@@ -77,9 +79,6 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
 
     return (
         <div className="nes-container with-title is-centered container">
-            <button type="button" className="nes-btn is-error" onClick={() => handleTrash()}>Trash</button>
-            <p>Revenue: {revenue}</p>
-
             {/* Orders */}
             <div className="orders">
                 <OrderList orders={orders} />
@@ -133,9 +132,9 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                 </div>
             </div>
 
-            {/* Pizza */}
-            <div className="pizza">
-                <div id="pizza-container" className="nes-container is-rounded">
+            <div className="kitchen">
+                {/* Pizza */}
+                <div id="pizza-container" className="nes-container is-rounded pizza-container">
                     <img src={pizzaBase}
                          alt="pizza base"
                          className="pizza-base"
@@ -149,20 +148,22 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                         />
                     ))}
                 </div>
-            </div>
 
-            {/* Oven */}
-            <div className="oven">
-                <div id="oven-container" className="nes-container is-rounded">
-                    <p>insert oven here</p>
+                {/* Oven */}
+                <div className="oven-container">
+                    <img src={oven} alt="oven" style={{ width: '505px', height: '505px' }} />
                 </div>
             </div>
 
             {/* Bake/Sell Buttons */}
             <div className="footer">
+                <button type="button" className="nes-btn is-error" style={{ float: 'left' }} onClick={() => handleTrash()}>Trash</button>
                 <button type="button" className="nes-btn is-error">Bake</button>
                 <button type="button" className="nes-btn is-success" onClick={handleSell}>Sell</button>
             </div>
+
+            <br/>
+            <p>Revenue: {revenue}</p>
         </div>
     )
 }
@@ -298,13 +299,13 @@ function App() {
         }
     };
 
-    if(!user) {
-        return (
-            <>
-                <HomePage />
-            </>
-        )
-    }
+    // if(!user) {
+    //     return (
+    //         <>
+    //             <HomePage />
+    //         </>
+    //     )
+    // }
 
     return (
         <div className="gamePage">

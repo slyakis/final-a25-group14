@@ -206,6 +206,17 @@
   z-index: 3;
 }
 
+.kitchen {
+  display: flex;
+  align-items: flex-end;
+  gap: 60px;
+}
+
+.pizza-container, .oven-container {
+  margin: 0;
+  padding: 0;
+}
+
 .footer .nes-btn {
   margin: 10px;
 }

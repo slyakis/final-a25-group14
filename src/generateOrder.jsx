@@ -1,4 +1,4 @@
-const TOPPINGS = ['pepperoni', 'mushrooms', 'olives', 'peppers'];
+const TOPPINGS = ['pepperoni', 'mushroom', 'olive', 'pepper'];
 
 export function generateOrder() {
     const extraTop = Math.floor(Math.random() * 5);
@@ -11,9 +11,9 @@ export function generateOrder() {
     const toppings = ['sauce', 'cheese', ...chosenExtras];
 
     for (let i = 0; i < extraTop + 2; i++) {
-        if (toppings[i] === 'pepperoni' || toppings[i] === 'mushrooms') {
+        if (toppings[i] === 'pepperoni' || toppings[i] === 'mushroom') {
             price += 2;
-        } else if (toppings[i] === 'olives' || toppings[i] === 'peppers') {
+        } else if (toppings[i] === 'olive' || toppings[i] === 'pepper') {
             price += 1;
         }
     }

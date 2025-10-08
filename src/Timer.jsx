@@ -22,17 +22,6 @@ const Timer = ({ duration = 120, onTimeUp}) => {
         return () => clearInterval(timerInterval);
     }, [isRunning, timeRemaining, onTimeUp]);
 
-    // const startTimer = () => {
-    //     if (timeRemaining > 0) setIsRunning(true);
-    // }
-    //
-    // const pauseTimer = () => setIsRunning(false);
-    //
-    // const resetTimer = () => {
-    //     setIsRunning(false);
-    //     setTimeRemaining(duration);
-    // }
-
     const toggleTimer = () => {
         setIsRunning((prev) => !prev);
     };

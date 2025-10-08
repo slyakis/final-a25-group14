@@ -70,17 +70,17 @@ function HomePage() {
     )
 }
 
-function GameplayArea({handleClick, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp}) {
     const handleTimeUp = () => {
         onTimeUp();
     };
 
     return (
         <div className="nes-container with-title is-centered container">
-            <p className="title">Gameplay Area</p>
             <p>Revenue: {revenue}</p>
 
             {/* Orders */}
+            <button type="button" className="nes-btn is-error" onClick={() => handleTrash()}>Trash</button>
             <div className="orders">
                 <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
@@ -94,42 +94,42 @@ function GameplayArea({handleClick, handleBuy, handleSell, orders, ingredients, 
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('sauce')}>Sauce: {ingredients.sauce}
                         <br/><img className="icon" src={sauceIcon} alt="sauce" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('cheese')}>Cheese: {ingredients.cheese}
                         <br/><img className="icon" src={cheeseIcon} alt="cheese" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepperoni')}>Pepperoni: {ingredients.pepperoni}
                         <br/><img className="icon" src={pepperoniIcon} alt="pepperoni" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('mushroom')}>Mushroom: {ingredients.mushroom}
                         <br/><img className="icon" src={mushroomIcon} alt="mushroom" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepper')}>Pepper: {ingredients.pepper}
                         <br/><img className="icon" src={pepperIcon} alt="pepper" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy 5/$4</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('olive')}>Olive: {ingredients.olive}
                         <br/><img className="icon" src={oliveIcon} alt="olive" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy 5/$4</button>
                 </div>
             </div>
 
@@ -177,6 +177,8 @@ function App() {
         olive: 10
     })
 
+    const [toppings, setToppings] = useState([]);
+
     const [orders, setOrders] = useState(() =>
         Array.from({length: 3}, () => generateOrder())
     );
@@ -208,24 +210,22 @@ function App() {
     };
 
     const handleClick = (ingredient) => {
-        if (ingredients[ingredient] > 0) {
-            setIngredients(prev => ({
-                ...prev,
-                [ingredient]: prev[ingredient] - 1,
-            }))
-
-            // const topping = document.createElement('img');
-            // topping.src = sprites[ingredient];
-            // topping.alt = ingredient;
-            // topping.className = 'topping';
-            // topping.id = ingredient;
-            // pizzaContainer.appendChild(topping);
-            // console.log("added topping");
-
-            setCurrentPizza(prev => [...prev, ingredient]);
-        } else {
-            alert(ingredient + " needs to be restocked!");
+        if (currentPizza.includes(ingredient)) {
+            alert(`${ingredient} is already on the pizza!`);
+            return;
         }
+
+        if (ingredients[ingredient] <= 0) {
+            alert(`${ingredient} needs to be restocked!`);
+            return;
+        }
+
+        setIngredients(prevStock => ({
+            ...prevStock,
+            [ingredient]: prevStock[ingredient] - 1,
+        }));
+
+        setCurrentPizza(prev => [...prev, ingredient]);
     }
 
     const handleBuy = (ingredient) => {
@@ -244,24 +244,44 @@ function App() {
     const handleSell = () => {
         if (orders.length === 0) return alert("No orders!");
 
-        const order = orders[0];
-        const pizzaSet = new Set(currentPizza);
-        const orderSet = new Set(order.toppings);
+        const sortedPizza = [...currentPizza].sort();
+        console.log("sorted pizza: " + sortedPizza);
 
-        const matches = pizzaSet.size === orderSet.size &&
-            [...pizzaSet].every(t => orderSet.has(t));
+        const matchingIndex = orders.findIndex(order => {
+            const sortedOrder = [...order.toppings].sort();
+            console.log("sorted order: " + sortedOrder);
+            return (
+                sortedPizza.length === sortedOrder.length &&
+                sortedPizza.every((topping, i) => topping === sortedOrder[i])
+            );
+        });
 
-        if (matches) {
+        if (matchingIndex === -1) {
+            alert("Wrong pizza! Customer rejected it.");
+        } else {
+            const order = orders[matchingIndex];
             setRevenue(prev => prev + order.price);
             setPizzasSold(prev => prev + 1);
-            alert(`Sold pizza for $${order.price}!`);
-            setOrders(prev => prev.slice(1));
-        } else {
-            alert("Wrong pizza! Customer rejected it.");
+            alert(`Sold order ${order.id.slice(0, 4)} for $${order.price}!`);
+
+            setOrders(prev => {
+                const newOrders = [...prev];
+                newOrders.splice(matchingIndex, 1);
+                newOrders.push(generateOrder());
+                return newOrders;
+            })
         }
 
         setCurrentPizza([]);
     };
+
+    const handleTrash = () => {
+        const pizzaContainer = document.getElementById("pizza-container");
+        const topping = document.getElementsByClassName('topping');
+        for (let i = 0; i < topping.length; i++) {
+            pizzaContainer.removeChild(topping[i]);
+        }
+    }
 
     const handleTimeUp = async () => {
         setGameFinished(true);
@@ -284,7 +304,7 @@ function App() {
         }
     };
 
-    if (!user) {
+    if(!user) {
         return (
             <>
                 <HomePage />
@@ -297,6 +317,7 @@ function App() {
             <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} />
             {activeTab === 'game' ? (
                 <GameplayArea handleClick={handleClick}
+                              handleTrash={handleTrash}
                               handleBuy={handleBuy}
                               handleSell={handleSell}
                               orders={orders}

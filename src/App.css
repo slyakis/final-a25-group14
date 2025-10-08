@@ -205,3 +205,7 @@
 .topping-pepperoni, .topping-mushroom, .topping-pepper, .topping-olive {
   z-index: 3;
 }
+
+.footer .nes-btn {
+  margin: 10px;
+}

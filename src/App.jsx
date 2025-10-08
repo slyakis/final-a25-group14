@@ -65,7 +65,7 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
             <div className="orders">
                 <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
-                    <Timer duration={120} onTimeUp={handleTimeUp}/>
+                    <Timer duration={120} onTimeUp={handleTimeUp} />
                 </div>
             </div>
 
@@ -171,18 +171,22 @@ function App() {
     const user = true;  //remove once user login is done
 
     const handleClick = (ingredient) => {
-        const pizzaContainer = document.getElementById("pizza-container");
-
-        if (ingredients[ingredient] > 0) {
-            setIngredients(prev => ({
-                ...prev,
-                [ingredient]: prev[ingredient] - 1,
-            }))
-
-            setCurrentPizza(prev => [...prev, ingredient]);
-        } else {
-            alert(ingredient + " needs to be restocked!");
+        if (currentPizza.includes(ingredient)) {
+            alert(`${ingredient} is already on the pizza!`);
+            return;
         }
+
+        if (ingredients[ingredient] <= 0) {
+            alert(`${ingredient} needs to be restocked!`);
+            return;
+        }
+
+        setIngredients(prevStock => ({
+            ...prevStock,
+            [ingredient]: prevStock[ingredient] - 1,
+        }));
+
+        setCurrentPizza(prev => [...prev, ingredient]);
     }
 
     const handleBuy = (ingredient) => {
@@ -201,19 +205,31 @@ function App() {
     const handleSell = () => {
         if (orders.length === 0) return alert("No orders!");
 
-        const order = orders[0];
-        const pizzaSet = new Set(currentPizza);
-        const orderSet = new Set(order.toppings);
+        const sortedPizza = [...currentPizza].sort();
+        console.log("sorted pizza: " + sortedPizza);
 
-        const matches = pizzaSet.size === orderSet.size &&
-            [...pizzaSet].every(t => orderSet.has(t));
+        const matchingIndex = orders.findIndex(order => {
+            const sortedOrder = [...order.toppings].sort();
+            console.log("sorted order: " + sortedOrder);
+            return (
+                sortedPizza.length === sortedOrder.length &&
+                sortedPizza.every((topping, i) => topping === sortedOrder[i])
+            );
+        });
 
-        if (matches) {
-            setRevenue(prev => prev + order.price);
-            alert(`Sold pizza for $${order.price}!`);
-            setOrders(prev => prev.slice(1));
-        } else {
+        if (matchingIndex === -1) {
             alert("Wrong pizza! Customer rejected it.");
+        } else {
+            const order = orders[matchingIndex];
+            setRevenue(prev => prev + order.price);
+            alert(`Sold order ${order.id.slice(0, 4)} for $${order.price}!`);
+
+            setOrders(prev => {
+                const newOrders = [...prev];
+                newOrders.splice(matchingIndex, 1);
+                newOrders.push(generateOrder());
+                return newOrders;
+            })
         }
 
         setCurrentPizza([]);

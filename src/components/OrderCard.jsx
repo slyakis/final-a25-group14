@@ -11,9 +11,9 @@ const TOPPING_SPRITES = {
     sauce: sauceIcon,
     cheese: cheeseIcon,
     pepperoni: pepperoniIcon,
-    mushrooms: mushroomIcon,
-    olives: oliveIcon,
-    peppers: pepperIcon
+    mushroom: mushroomIcon,
+    olive: oliveIcon,
+    pepper: pepperIcon
 };
 
 export default function OrderCard({ order }) {

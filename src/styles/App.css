@@ -145,13 +145,6 @@
   height: 50px;
 }
 
-.ingredients button {
-  width: 100%;
-  max-width: 120px;
-  align-items: center;
-  font-size: 10px;
-}
-
 .ingredients {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -170,15 +163,23 @@
   margin: 3px 0;
 }
 
-.buy-btn {
+button.nes-btn.buy-btn {
   height: 35px;
-  font-size: 0.8rem;
+  width: 150px;
   margin-top: 4px;
+  padding: 0 12px;
+  display: inline-block;
+  font-size: 12px;
 }
 
-.ingredient-btn {
+button.nes-btn.ingredient-btn {
   height: 100px;
-  width: 100px;
+  width: 150px;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12px;
 }
 
 .pizza {

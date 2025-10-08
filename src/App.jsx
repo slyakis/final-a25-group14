@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react'
-import './App.css'
-import Timer from './Timer.jsx'
+import './styles/App.css'
+import Timer from './components/Timer.jsx'
+import Popup from "./components/Popup.jsx";
 import "nes.css/css/nes.min.css"
 import OrderList from './components/OrderList.jsx';
 import Leaderboard from './components/Leaderboard.jsx';
-import {generateOrder} from "./generateOrder.jsx";
+import {generateOrder} from "./components/generateOrder.jsx";
 import { getCurrentUser, logout, saveGameSession } from './utils/api.js';
 import sauceIcon from './sprites/sauceIcon.png';
 import cheeseIcon from './sprites/cheeseIcon.png';
@@ -52,7 +53,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                     Leaderboard
                 </button>
             </div>
-            {/* <p id="userInfo">Welcome {user.username}!</p> */}
+            <p id="userInfo">Welcome {user.username}!</p>
             <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
@@ -188,6 +189,11 @@ function App() {
     const [_gameFinished, setGameFinished] = useState(false)
     const [pizzasSold, setPizzasSold] = useState(0)
     const [activeTab, setActiveTab] = useState('game')
+    const [popupMessage, setPopupMessage] = useState(null);
+
+    const showPopup = (message) => {
+        setPopupMessage(message);
+    };
 
     // Load user on component mount
     useEffect(() => {
@@ -210,12 +216,12 @@ function App() {
 
     const handleClick = (ingredient) => {
         if (currentPizza.includes(ingredient)) {
-            alert(`${ingredient} is already on the pizza!`);
+            showPopup(ingredient + " is already on the pizza!");
             return;
         }
 
         if (ingredients[ingredient] <= 0) {
-            alert(`${ingredient} needs to be restocked!`);
+            showPopup(ingredient + " needs to be restocked!");
             return;
         }
 
@@ -241,7 +247,7 @@ function App() {
     }
 
     const handleSell = () => {
-        if (orders.length === 0) return alert("No orders!");
+        if (orders.length === 0) return showPopup("No orders!");
 
         const sortedPizza = [...currentPizza].sort();
         console.log("sorted pizza: " + sortedPizza);
@@ -256,12 +262,12 @@ function App() {
         });
 
         if (matchingIndex === -1) {
-            alert("Wrong pizza! Customer rejected it.");
+            showPopup("Wrong pizza! Customer rejected it.");
         } else {
             const order = orders[matchingIndex];
             setRevenue(prev => prev + order.price);
             setPizzasSold(prev => prev + 1);
-            alert(`Sold order ${order.id.slice(0, 4)} for $${order.price}!`);
+            showPopup("Sold order for $" + order.price + "!");
 
             setOrders(prev => {
                 const newOrders = [...prev];
@@ -299,13 +305,13 @@ function App() {
         }
     };
 
-    // if(!user) {
-    //     return (
-    //         <>
-    //             <HomePage />
-    //         </>
-    //     )
-    // }
+    if(!user) {
+        return (
+            <>
+                <HomePage />
+            </>
+        )
+    }
 
     return (
         <div className="gamePage">
@@ -322,6 +328,13 @@ function App() {
                               onTimeUp={handleTimeUp} />
             ) : (
                 <Leaderboard />
+            )}
+
+            {popupMessage && (
+                <Popup
+                    message={popupMessage}
+                    onClose={() => setPopupMessage(null)}
+                />
             )}
         </div>
     )

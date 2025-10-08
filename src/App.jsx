@@ -53,7 +53,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                     Leaderboard
                 </button>
             </div>
-            {/*<p id="userInfo">Welcome {user.username}!</p>*/}
+            <p id="userInfo">Welcome {user.username}!</p>
             <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
@@ -341,13 +341,13 @@ function App() {
         setBaked(true);
     }
 
-    // if(!user) {
-    //     return (
-    //         <>
-    //             <HomePage />
-    //         </>
-    //     )
-    // }
+    if(!user) {
+        return (
+            <>
+                <HomePage />
+            </>
+        )
+    }
 
     return (
         <div className="gamePage">

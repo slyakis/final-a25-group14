@@ -158,24 +158,23 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                 </div>
             </div>
 
-            {/* Bake/Sell Buttons */}
+            {/* Trash/Bake/Sell Buttons, Revenue, and Progress Bar */}
             <div className="footer">
-                <button type="button" className="nes-btn is-error" style={{float: 'left'}} disabled={isBaking}
+                <button type="button" className="nes-btn is-error" disabled={isBaking}
                         onClick={() => handleTrash()}>Trash
                 </button>
 
-                <p style={{marginLeft: '40px'}}>Revenue: {revenue}</p>
+                <p className="revenue">Revenue: {revenue}</p>
+                <div className="actions">
+                    <button type="button" className="nes-btn is-error" disabled={isBaking}
+                            onClick={() => handleBake()}>Bake
+                    </button>
+                    <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell
+                    </button>
 
-                <button type="button" className="nes-btn is-error" disabled={isBaking} style={{marginLeft: '300px'}}
-                        onClick={() => handleBake()}>Bake
-                </button>
-                <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell
-                </button>
-
-                <progress className="nes-progress is-warning" value={progress} max="100" style={{marginLeft: '220px'}}></progress>
+                    <progress className="nes-progress is-warning" value={progress} max="100"></progress>
+                </div>
             </div>
-
-            <br/>
         </div>
     )
 }

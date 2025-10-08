@@ -43,6 +43,29 @@
   grid-area: footer;
   padding-top: 30px;
   display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-left: 170px;
+}
+
+.footer .revenue {
+  margin: 0;
+  font-size: 20px;
+  text-wrap: nowrap;
+}
+
+.nes-progress {
+  transform: scale(0.4);
+  transform-origin: center;
+  transition: all 3s linear;
 }
 
 #mainHeader {
@@ -254,9 +277,4 @@ button.nes-btn.ingredient-btn {
 button:disabled {
   opacity: 0.8;
   cursor: not-allowed;
-}
-
-.nes-progress {
-  scale: 0.4;
-  transition: all 3s linear;
 }

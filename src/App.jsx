@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
-import Timer from './Timer'
+import Timer from './Timer.jsx'
 import "nes.css/css/nes.min.css"
 import OrderList from './components/OrderList.jsx';
+import Leaderboard from './components/Leaderboard.jsx';
 import {generateOrder} from "./generateOrder.jsx";
+import { getCurrentUser, logout, saveGameSession } from './utils/api.js';
 import sauceIcon from './sprites/sauceIcon.png';
 import cheeseIcon from './sprites/cheeseIcon.png';
 import pepperoniIcon from './sprites/pepperoniIcon.png';
@@ -28,32 +30,49 @@ const sprites = {
     olive
 }
 
-function Header({user}) {
+function Header({user, onLogout, activeTab, setActiveTab}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
-            <p id="userInfo">Welcome {user}!</p>
+            <div className="navigation">
+                <button
+                    type="button"
+                    className={`nes-btn ${activeTab === 'game' ? 'is-primary' : ''}`}
+                    onClick={() => setActiveTab('game')}
+                >
+                    Game
+                </button>
+                <button
+                    type="button"
+                    className={`nes-btn ${activeTab === 'leaderboard' ? 'is-primary' : ''}`}
+                    onClick={() => setActiveTab('leaderboard')}
+                >
+                    Leaderboard
+                </button>
+            </div>
+            <p id="userInfo">Welcome {user.username}!</p>
+            <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
 }
 
 function HomePage() {
+    const githubAuthUrl = import.meta.env.VITE_GITHUB_AUTH_URL || 'http://localhost:3001/auth/github';
+
     return (
         <div className="homePage">
-            <>
-                <span className="nes-text is-primary" id="mainHeader">Bad Pizza, Sad Pizza</span>
-                <p id="userInfo">Sign in to start!</p>
-                <div className="loginPage">
-                    <a className="nes-btn" href="/auth/github" id="loginButton">Sign In with Github</a>
-                </div>
-            </>
+            <span className="nes-text is-primary" id="mainHeader">Bad Pizza, Sad Pizza</span>
+            <p id="userInfo">Sign in to start!</p>
+            <div className="loginPage">
+                <a className="nes-btn" href={githubAuthUrl} id="loginButton">Sign In with Github</a>
+            </div>
         </div>
     )
 }
 
-function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp}) {
     const handleTimeUp = () => {
-        alert("Time's Up!");
+        onTimeUp();
     };
 
     return (
@@ -164,8 +183,29 @@ function App() {
 
     const [revenue, setRevenue] = useState(20)
     const [currentPizza, setCurrentPizza] = useState([])
+    const [user, setUser] = useState(null)
+    const [_gameFinished, setGameFinished] = useState(false)
+    const [pizzasSold, setPizzasSold] = useState(0)
+    const [activeTab, setActiveTab] = useState('game')
 
-    const user = true;  //remove once user login is done
+    // Load user on component mount
+    useEffect(() => {
+        const loadUser = async () => {
+            const currentUser = await getCurrentUser();
+            setUser(currentUser);
+        };
+
+        loadUser();
+    }, []);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setUser(null);
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
 
     const handleClick = (ingredient) => {
         if (currentPizza.includes(ingredient)) {
@@ -219,6 +259,7 @@ function App() {
         } else {
             const order = orders[matchingIndex];
             setRevenue(prev => prev + order.price);
+            setPizzasSold(prev => prev + 1);
             alert(`Sold order ${order.id.slice(0, 4)} for $${order.price}!`);
 
             setOrders(prev => {
@@ -236,6 +277,27 @@ function App() {
         setCurrentPizza([]);
     }
 
+    const handleTimeUp = async () => {
+        setGameFinished(true);
+        alert(`Time's Up! You sold ${pizzasSold} pizzas and earned $${revenue}!`);
+
+        // Save game session if user is logged in
+        if (user) {
+            try {
+                await saveGameSession({
+                    userId: user.id,
+                    username: user.username,
+                    pizzasSold: pizzasSold,
+                    revenue: revenue,
+                    gameTime: 120 // 2 minutes in seconds
+                });
+                console.log('Game session saved successfully');
+            } catch (error) {
+                console.error('Failed to save game session:', error);
+            }
+        }
+    };
+
     if(!user) {
         return (
             <>
@@ -246,15 +308,20 @@ function App() {
 
     return (
         <div className="gamePage">
-            <Header user={user} />
-            <GameplayArea handleClick={handleClick}
-                          handleTrash={handleTrash}
-                          handleBuy={handleBuy}
-                          handleSell={handleSell}
-                          orders={orders}
-                          ingredients={ingredients}
-                          revenue={revenue}
-                          currentPizza={currentPizza} />
+            <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} />
+            {activeTab === 'game' ? (
+                <GameplayArea handleClick={handleClick}
+                              handleTrash={handleTrash}
+                              handleBuy={handleBuy}
+                              handleSell={handleSell}
+                              orders={orders}
+                              ingredients={ingredients}
+                              revenue={revenue}
+                              currentPizza={currentPizza}
+                              onTimeUp={handleTimeUp} />
+            ) : (
+                <Leaderboard />
+            )}
         </div>
     )
 }

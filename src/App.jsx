@@ -75,42 +75,42 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('sauce')}>Sauce: {ingredients.sauce}
                         <br/><img className="icon" src={sauceIcon} alt="sauce" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('sauce')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('cheese')}>Cheese: {ingredients.cheese}
                         <br/><img className="icon" src={cheeseIcon} alt="cheese" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('cheese')}>Buy FREE</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepperoni')}>Pepperoni: {ingredients.pepperoni}
                         <br/><img className="icon" src={pepperoniIcon} alt="pepperoni" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepperoni')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('mushroom')}>Mushroom: {ingredients.mushroom}
                         <br/><img className="icon" src={mushroomIcon} alt="mushroom" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('mushroom')}>Buy 5/$8</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('pepper')}>Pepper: {ingredients.pepper}
                         <br/><img className="icon" src={pepperIcon} alt="pepper" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('pepper')}>Buy 5/$4</button>
                 </div>
 
                 <div className="ingredient-pair">
                     <button type="button" className="nes-btn is-primary ingredient-btn" onClick={() => handleClick('olive')}>Olive: {ingredients.olive}
                         <br/><img className="icon" src={oliveIcon} alt="olive" />
                     </button>
-                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy</button>
+                    <button type="button" className="nes-btn is-warning buy-btn" onClick={() => handleBuy('olive')}>Buy 5/$4</button>
                 </div>
             </div>
 

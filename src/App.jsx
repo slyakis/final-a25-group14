@@ -37,7 +37,7 @@ function Header({user}) {
     )
 }
 
-function HomePage({user}) {
+function HomePage() {
     return (
         <div className="homePage">
             <>
@@ -58,10 +58,10 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
 
     return (
         <div className="nes-container with-title is-centered container">
+            <button type="button" className="nes-btn is-error" onClick={() => handleTrash()}>Trash</button>
             <p>Revenue: {revenue}</p>
 
             {/* Orders */}
-            <button type="button" className="nes-btn is-error" onClick={() => handleTrash()}>Trash</button>
             <div className="orders">
                 <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
@@ -158,9 +158,6 @@ function App() {
         olive: 10
     })
 
-
-    const [toppings, setToppings] = useState([]);
-
     const [orders, setOrders] = useState(() =>
         Array.from({length: 3}, () => generateOrder())
     );
@@ -236,17 +233,13 @@ function App() {
     };
 
     const handleTrash = () => {
-        const pizzaContainer = document.getElementById("pizza-container");
-        const topping = document.getElementsByClassName('topping');
-        for (let i = 0; i < topping.length; i++) {
-            pizzaContainer.removeChild(topping[i]);
-        }
+        setCurrentPizza([]);
     }
 
     if(!user) {
         return (
             <>
-                <HomePage user={user} />
+                <HomePage />
             </>
         )
     }

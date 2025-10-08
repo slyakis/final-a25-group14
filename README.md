@@ -17,11 +17,11 @@ Your project should consist of a complete Web application, exhibiting facets of 
 
 - Static web page content and design. You should have a project that is accessible, easily navigable, and features significant content.
 - Dynamic behavior implemented with JavaScript (TypeScript is also allowed if your group wants to explore it).
-- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation. 
+- Server-side programming *using Node.js*. Typically this will take the form of some sort of persistent data (database), authentication, and possibly server-side computation.
 - A video (less than five minutes) where each group member explains some aspect of the project. An easy way to produce this video is for you all the groups members to join a Zoom call that is recorded; each member can share their screen when they discuss the project or one member can "drive" the interface while other members narrate (this second option will probably work better.) Upload the video to Canvas. (Further instructions are available in the Canvas assignment.) Make sure your video is less than five minutes but long enough to successfully explain your project and show it in action. There is no minimum video length.
 
 ## Project ideation
-Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have some impact, whether artistically, politically, productivity, or something else altogether. 
+Excellent projects typically serve someone/some group; for this assignment you need to define your users and stakeholders. I encourage you to identify projects that will have some impact, whether artistically, politically, productivity, or something else altogether.
 
 ## Deliverables
 
@@ -30,10 +30,10 @@ Students are will work in teams of 3-5 students for the project. Working in team
 
 Teams must be in place by end of day on Tuesday, September 23. If you have not identified a team at this point, you will be assigned a team. **Put all team members together in one of the empty "Final Project" groups on Canvas. You MUST do this step to receive full credit on the assignment.**
 
-### Proposal (Due Tuesday, September 30, 11:59 pm) 
+### Proposal (Due Tuesday, September 30, 11:59 pm)
 Provide an outline of your project direction and the names of associated team members. The outline should have enough detail so that staff can determine if it meets the minimum expectations or if it goes too far to be reasonable by the deadline. Please include a general description of the project and a list of key technologies/libraries you plan on using (e.g. React, Three.js, Svelte, TypeScript, etc.). Two to four paragraps should provide enough level of detail. Name the file proposal.md and submit a pull request by Tuesday, September 30th at 11:59 PM (end of day). Your pull request does not need to have a specific name. Only one pull request is required per team.
 
-There are no other scheduled checkpoints for your project. 
+There are no other scheduled checkpoints for your project.
 
 ### Turning in Your Project (Due Friday, October 10, 11:59 pm)
 **Although the assignment is due at 11:59 pm, you must be prepared to demo your website in class that day.**
@@ -57,6 +57,6 @@ The video described above is also due on Canvas at this time.
 
 ## FAQs
 
-**Can I use XYZ framework?** 
+**Can I use XYZ framework?**
 
 You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript. Note that the staff may not be able to assist with TypeScript questions.

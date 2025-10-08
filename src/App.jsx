@@ -51,21 +51,21 @@ function HomePage({user}) {
     )
 }
 
-function GameplayArea({handleClick, handleBuy, handleSell, orders, ingredients, revenue, currentPizza}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza}) {
     const handleTimeUp = () => {
         alert("Time's Up!");
     };
 
     return (
         <div className="nes-container with-title is-centered container">
-            <p className="title">Gameplay Area</p>
             <p>Revenue: {revenue}</p>
 
             {/* Orders */}
+            <button type="button" className="nes-btn is-error" onClick={() => handleTrash()}>Trash</button>
             <div className="orders">
                 <OrderList orders={orders} />
                 <div id="timer-container" className="nes-container is-rounded">
-                    <Timer duration={120} onTimeUp={handleTimeUp} />
+                    <Timer duration={120} onTimeUp={handleTimeUp}/>
                 </div>
             </div>
 
@@ -158,6 +158,9 @@ function App() {
         olive: 10
     })
 
+
+    const [toppings, setToppings] = useState([]);
+
     const [orders, setOrders] = useState(() =>
         Array.from({length: 3}, () => generateOrder())
     );
@@ -175,14 +178,6 @@ function App() {
                 ...prev,
                 [ingredient]: prev[ingredient] - 1,
             }))
-
-            // const topping = document.createElement('img');
-            // topping.src = sprites[ingredient];
-            // topping.alt = ingredient;
-            // topping.className = 'topping';
-            // topping.id = ingredient;
-            // pizzaContainer.appendChild(topping);
-            // console.log("added topping");
 
             setCurrentPizza(prev => [...prev, ingredient]);
         } else {
@@ -224,6 +219,14 @@ function App() {
         setCurrentPizza([]);
     };
 
+    const handleTrash = () => {
+        const pizzaContainer = document.getElementById("pizza-container");
+        const topping = document.getElementsByClassName('topping');
+        for (let i = 0; i < topping.length; i++) {
+            pizzaContainer.removeChild(topping[i]);
+        }
+    }
+
     if(!user) {
         return (
             <>
@@ -236,6 +239,7 @@ function App() {
         <div className="gamePage">
             <Header user={user} />
             <GameplayArea handleClick={handleClick}
+                          handleTrash={handleTrash}
                           handleBuy={handleBuy}
                           handleSell={handleSell}
                           orders={orders}

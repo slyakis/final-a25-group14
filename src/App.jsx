@@ -37,6 +37,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
+            <p id="userInfo">Welcome {user.username}!</p>
             <div className="navigation">
                 <button
                     type="button"
@@ -52,9 +53,8 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                 >
                     Leaderboard
                 </button>
+                <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
             </div>
-            <p id="userInfo">Welcome {user.username}!</p>
-            <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
 }

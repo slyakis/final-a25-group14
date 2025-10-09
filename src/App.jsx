@@ -37,6 +37,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
+            <p id="userInfo">Welcome {user.username}!</p>
             <div className="navigation">
                 <button
                     type="button"
@@ -52,9 +53,8 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                 >
                     Leaderboard
                 </button>
+                <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
             </div>
-            {/*<p id="userInfo">Welcome {user.username}!</p>*/}
-            <button type="button" className="nes-btn is-error" onClick={onLogout}>Logout</button>
         </div>
     )
 }
@@ -73,7 +73,7 @@ function HomePage() {
     )
 }
 
-function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp, handleBake, isBaking, progress}) {
+function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, ingredients, revenue, currentPizza, onTimeUp, handleBake, isBaking, baked, resetProgress}) {
     const handleTimeUp = () => {
         onTimeUp();
     };
@@ -172,7 +172,11 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                     <button type="button" className="nes-btn is-success" disabled={isBaking} onClick={handleSell}>Sell
                     </button>
 
-                    <progress className="nes-progress is-warning" value={progress} max="100"></progress>
+                    <div className="progress-bar">
+                        <div className={`progress-fill ${isBaking ? 'active' : baked ? 'full' : ''} ${resetProgress ? 'reset' : ''}`}
+                             style={{transitionDelay: '1500ms', transitionDuration: '1500ms'}}>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +206,7 @@ function App() {
     const [popupMessage, setPopupMessage] = useState([]);
     const [isBaking, setIsBaking] = useState(false);
     const [baked, setBaked] = useState(false);
-    const [progress, setProgress] = useState(0);
+    const [resetProgress, setResetProgress] = useState(false);
 
     const showPopup = (message) => {
         const id = Date.now();
@@ -311,12 +315,13 @@ function App() {
         }
 
         setCurrentPizza([]);
+        setResetProgress(true);
         setBaked(false);
-        setProgress(0);
     };
 
     const handleTrash = () => {
         setCurrentPizza([]);
+        setBaked(false);
     }
 
     const handleTimeUp = async () => {
@@ -347,21 +352,13 @@ function App() {
         }
 
         setIsBaking(true);
+        setResetProgress(false);
+        setBaked(false);
 
         setTimeout(() => {
-            setProgress(0);
-            let value = 0;
-
-            const interval = setInterval(() => {
-                value += 5;
-                if (value >=100) {
-                    clearInterval(interval);
-                    setIsBaking(false);
-                    setBaked(true);
-                }
-                setProgress(value);
-            }, 100)
-        }, 1500)
+            setIsBaking(false);
+            setBaked(true);
+        }, 3000)
     }
 
     // if(!user) {
@@ -387,7 +384,8 @@ function App() {
                               onTimeUp={handleTimeUp}
                               handleBake={handleBake}
                               isBaking={isBaking}
-                              progress={progress}
+                              baked={baked}
+                              resetProgress={resetProgress}
                 />
             ) : (
                 <Leaderboard />

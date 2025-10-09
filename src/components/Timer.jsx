@@ -4,6 +4,11 @@ const Timer = ({ duration = 120, onTimeUp}) => {
     const [timeRemaining, setTimeRemaining] = useState(duration);
     const [isRunning, setIsRunning] = useState(false);
 
+    // Auto-start the timer when the component mounts
+    useEffect(() => {
+        setIsRunning(true);
+    }, []);
+
     useEffect(() => {
         let timerInterval;
 
@@ -55,11 +60,48 @@ const Timer = ({ duration = 120, onTimeUp}) => {
 
             <button
                 type="button"
-                className={`nes-btn ${isRunning ? "is-warning" : "is-success"}`}
+                className={`nes-btn is-warning`}
                 onClick={toggleTimer}
             >
-                {isRunning ? "Pause" : "Start"}
+                Pause
             </button>
+
+            {/* Overlay for paused state */}
+            {!isRunning && timeRemaining !== duration && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        zIndex: 1000,
+                    }}
+                >
+                    <div
+                        className="nes-container is-rounded is-dark"
+                        style={{
+                            textAlign: 'center',
+                            padding: '35px',
+                            fontSize: '1.5rem',
+                        }}
+                    >
+                        <h2 className="nes-text is-warning">Paused</h2>
+                        <button
+                            type="button"
+                            className="nes-btn is-success"
+                            onClick={toggleTimer}
+                        >
+                            Resume
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -324,3 +324,11 @@ button:disabled {
 .instructions li {
   padding-bottom: 10px;
 }
+
+.instructions-container {
+  background-color: white;
+}
+
+.leaderboard-container {
+  background-color: white;
+}

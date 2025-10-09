@@ -25,15 +25,15 @@ function Leaderboard() {
   }, []);
 
   if (loading) {
-    return <div className="nes-container with-title is-centered"><p className="title">Leaderboard</p><p>Loading...</p></div>;
+    return <div className="nes-container with-title is-centered leaderboard-container"><p className="title">Leaderboard</p><p>Loading...</p></div>;
   }
 
   if (error) {
-    return <div className="nes-container with-title is-centered"><p className="title">Leaderboard</p><p className="nes-text is-error">{error}</p></div>;
+    return <div className="nes-container with-title is-centered leaderboard-container"><p className="title">Leaderboard</p><p className="nes-text is-error">{error}</p></div>;
   }
 
   return (
-    <div className="nes-container with-title is-centered">
+    <div className="nes-container with-title is-centered leaderboard-container">
       <p className="title">Leaderboard</p>
       {leaderboard.length === 0 ? (
         <p>No scores yet!</p>

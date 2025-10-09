@@ -47,7 +47,7 @@
   gap: 20px;
 }
 
-.actions {
+.footer .actions {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -62,10 +62,35 @@
   text-wrap: nowrap;
 }
 
-.nes-progress {
-  transform: scale(0.4);
-  transform-origin: center;
-  transition: all 3s linear;
+.progress-bar {
+  width: 200px;
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  border: 3px solid black;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: gold;
+  width: 0;
+  transition: width 3s linear;
+}
+
+.progress-fill.active {
+  width: 100%;
+}
+
+.progress-fill.full {
+  width: 100%;
+  transition: none;
+}
+
+.progress-fill.reset {
+  transition: none;
+  width: 0;
 }
 
 #mainHeader {

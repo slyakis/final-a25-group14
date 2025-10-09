@@ -21,6 +21,7 @@ import pepperoni from './sprites/pepperoni.png';
 import pepper from './sprites/pepper.png';
 import olive from './sprites/olive.png';
 import oven from './sprites/oven.png';
+import Instructions from "./components/Instructions.jsx";
 
 const sprites = {
     pizzaBase,
@@ -37,7 +38,7 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
-            <p id="userInfo">Welcome {user.username}!</p>
+            {/*<p id="userInfo">Welcome {user.username}!</p>*/}
             <div className="navigation">
                 <button
                     type="button"
@@ -45,6 +46,13 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                     onClick={() => setActiveTab('game')}
                 >
                     Game
+                </button>
+                <button
+                    type="button"
+                    className={`nes-btn ${activeTab === 'instructions' ? 'is-primary' : ''}`}
+                    onClick={() => setActiveTab('instructions')}
+                >
+                    How To Play
                 </button>
                 <button
                     type="button"
@@ -79,7 +87,7 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
     };
 
     return (
-        <div className="nes-container with-title is-centered container">
+        <div className="nes-container with-title is-centered container gameplay-area">
             {/* Orders */}
             <div className="orders">
                 <OrderList orders={orders} />
@@ -164,7 +172,7 @@ function GameplayArea({handleClick, handleTrash, handleBuy, handleSell, orders, 
                         onClick={() => handleTrash()}>Trash
                 </button>
 
-                <p className="revenue">Revenue: {revenue}</p>
+                <p className="revenue">Revenue: ${revenue}</p>
                 <div className="actions">
                     <button type="button" className="nes-btn is-error" disabled={isBaking}
                             onClick={() => handleBake()}>Bake
@@ -387,8 +395,10 @@ function App() {
                               baked={baked}
                               resetProgress={resetProgress}
                 />
+            ) : activeTab === 'instructions' ? (
+                    <Instructions />
             ) : (
-                <Leaderboard />
+                    <Leaderboard />
             )}
 
             {popupMessage.map((p) => (

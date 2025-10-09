@@ -255,22 +255,25 @@ function App() {
     }
 
     const handleBuy = (ingredient) => {
-        setIngredients(prev => ({
-            ...prev,
-            [ingredient]: prev[ingredient] + 5,
-        }))
+        const ingredientPrices = {
+            pepperoni: 8,
+            mushroom: 8,
+            olive: 4,
+            pepper: 4,
+        };
 
-        if (ingredient === 'pepperoni' || ingredient === 'mushroom') {
-            if (revenue - 8 < 0) {
-                showPopup("Insufficient funds!")
-            } else {
-                setRevenue(prev => prev - 8)
-            }
-        } else if (ingredient === 'olive' || ingredient === 'pepper') {
-            if (revenue - 4 < 0) {
-                showPopup("Insufficient funds!")
-            } else {
-                setRevenue(prev => prev - 4)
+        const price = ingredientPrices[ingredient] || 0;
+
+        if (price > 0 && revenue - price < 0) {
+            showPopup("Insufficient funds!");
+        } else {
+            setIngredients(prev => ({
+                ...prev,
+                [ingredient]: prev[ingredient] + 5,
+            }));
+
+            if (price > 0) {
+                setRevenue(prev => prev - price);
             }
         }
     }
@@ -358,13 +361,13 @@ function App() {
         }, 3000)
     }
 
-    if(!user) {
-        return (
-            <>
-                <HomePage />
-            </>
-        )
-    }
+    // if(!user) {
+    //     return (
+    //         <>
+    //             <HomePage />
+    //         </>
+    //     )
+    // }
 
     return (
         <div className="gamePage">

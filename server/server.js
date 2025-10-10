@@ -10,6 +10,7 @@ import User from './models/User.js';
 import process from "node:process";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from 'fs';
 
 dotenv.config();
 
@@ -107,14 +108,26 @@ app.get('/health', (_req, res) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const clientDistPath = path.join(__dirname, '..', 'dist');
+const indexHtmlPath = path.join(clientDistPath, 'index.html');
 
-const clientDistPath = path.join(__dirname, "..", "dist");
+if (fs.existsSync(indexHtmlPath)) {
+  app.use(express.static(clientDistPath));
 
-app.use(express.static(clientDistPath));
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(clientDistPath, "index.html"));
-});
+  app.use((req, res) => {
+    res.sendFile(indexHtmlPath, (err) => {
+      if (err) {
+        console.error('Error sending index.html:', err);
+        res.status(500).send('Server error while serving client.');
+      }
+    });
+  });
+} else {
+  console.warn('Client build not found at', indexHtmlPath);
+  app.use((_req, res) => {
+    res.status(404).send('Client not built. Please run npm run build in the repo root.');
+  });
+}
 
 
 // Connect to MongoDB

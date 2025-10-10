@@ -18,7 +18,7 @@ const TOPPING_SPRITES = {
 
 export default function OrderCard({ order }) {
     return (
-        <div className="nes-container is-rounded" style={{ width: '250px', margin: '10px', backgroundColor: 'slategray' }}>
+        <div className="nes-container is-rounded" style={{ width: '380px', height: '190px', margin: '10px', backgroundColor: 'slategray' }}>
             <p className="title">Order #{order.id.slice(0, 4)}</p>
 
             <div

@@ -34,7 +34,7 @@ const sprites = {
     oven
 }
 
-function Header({user, onLogout, activeTab, setActiveTab}) {
+function Header({user, onLogout, activeTab, setActiveTab, setRevenue}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
@@ -43,7 +43,10 @@ function Header({user, onLogout, activeTab, setActiveTab}) {
                 <button
                     type="button"
                     className={`nes-btn ${activeTab === 'game' ? 'is-primary' : ''}`}
-                    onClick={() => setActiveTab('game')}
+                    onClick={() => {
+                        setActiveTab('game')
+                        setRevenue(20)
+                    }}
                 >
                     Game
                 </button>
@@ -379,7 +382,7 @@ function App() {
 
     return (
         <div className="gamePage">
-            <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} />
+            <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} setRevenue={setRevenue} />
             {activeTab === 'game' ? (
                 <GameplayArea handleClick={handleClick}
                               handleTrash={handleTrash}

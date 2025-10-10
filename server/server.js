@@ -105,14 +105,15 @@ app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
-app.use(express.static(clientBuildPath));
-
-app.use((req, res) => {
-  res.sendFile(path.join(clientBuildPath, 'index.html'));
+app.use(express.static(path.join(dirname, 'dist')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(dirname, 'dist', 'index.html'));
+});
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(dirname, 'dist', 'index.html'));
 });
 
 // Connect to MongoDB

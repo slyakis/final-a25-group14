@@ -213,7 +213,7 @@ function App() {
     const [user, setUser] = useState(null)
     const [_gameFinished, setGameFinished] = useState(false)
     const [pizzasSold, setPizzasSold] = useState(0)
-    const [activeTab, setActiveTab] = useState('game')
+    let [activeTab, setActiveTab] = useState('instructions')
     const [popupMessage, setPopupMessage] = useState([]);
     const [isBaking, setIsBaking] = useState(false);
     const [baked, setBaked] = useState(false);
@@ -404,7 +404,19 @@ function App() {
                               resetProgress={resetProgress}
                 />
             ) : activeTab === 'instructions' ? (
-                    <Instructions />
+                    <div className="instructions">
+                        <Instructions />
+                        <button className="nes-btn is-success"
+                                onClick={() => setActiveTab('game')}
+                                style={{
+                                    marginLeft: '380px',
+                                    marginTop: '35px',
+                                    height: '75px',
+                                    justifyContent: 'center',
+                                    fontSize: '30px',
+                                }}
+                        >Play!</button>
+                    </div>
             ) : (
                     <Leaderboard />
             )}

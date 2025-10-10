@@ -8,8 +8,8 @@ import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import User from './models/User.js';
 import process from "node:process";
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -105,16 +105,17 @@ app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(dirname, 'dist')));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(dirname, 'dist', 'index.html'));
+const clientDistPath = path.join(__dirname, "..", "dist");
+
+app.use(express.static(clientDistPath));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(clientDistPath, "index.html"));
 });
-app.get('/index.html', (req, res) => {
-  res.sendFile(path.join(dirname, 'dist', 'index.html'));
-});
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bad-pizza-sad-pizza')

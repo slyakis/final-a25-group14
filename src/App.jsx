@@ -38,7 +38,7 @@ function Header({user, onLogout, activeTab, setActiveTab, setRevenue}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
-            {/*<p id="userInfo">Welcome {user.username}!</p>*/}
+            <p id="userInfo">Welcome {user.username}!</p>
             <div className="navigation">
                 <button
                     type="button"
@@ -217,6 +217,7 @@ function App() {
     const [popupMessage, setPopupMessage] = useState([]);
     const [isBaking, setIsBaking] = useState(false);
     const [baked, setBaked] = useState(false);
+    const [gameOver, setGameOver] = useState(false);
     const [resetProgress, setResetProgress] = useState(false);
 
     const showPopup = (message) => {
@@ -337,7 +338,7 @@ function App() {
 
     const handleTimeUp = async () => {
         setGameFinished(true);
-        alert(`Time's Up! You sold ${pizzasSold} pizzas and earned $${revenue}!`);
+        setGameOver(true);
 
         // Save game session if user is logged in
         if (user) {
@@ -372,13 +373,13 @@ function App() {
         }, 3000)
     }
 
-    // if(!user) {
-    //     return (
-    //         <>
-    //             <HomePage />
-    //         </>
-    //     )
-    // }
+    if(!user) {
+        return (
+            <>
+                <HomePage />
+            </>
+        )
+    }
 
     return (
         <div className="gamePage">
@@ -402,6 +403,25 @@ function App() {
                     <Instructions />
             ) : (
                     <Leaderboard />
+            )}
+
+            {gameOver && (
+                <div className="overlay">
+                    <div className="gameover-popup nes-container is-rounded with-title">
+                        <p className="title">Time’s Up!</p>
+                        <p>You sold {pizzasSold} pizzas and earned ${revenue}!</p>
+                        <button
+                            type="button"
+                            className="nes-btn is-success"
+                            onClick={() => {
+                                setGameOver(false);
+                                setActiveTab('leaderboard');
+                            }}
+                        >
+                            View Leaderboard
+                        </button>
+                    </div>
+                </div>
             )}
 
             {popupMessage.map((p) => (

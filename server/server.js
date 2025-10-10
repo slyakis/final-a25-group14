@@ -8,6 +8,8 @@ import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import User from './models/User.js';
 import process from "node:process";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -114,3 +116,13 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bad-pizza
   .catch((error) => {
     console.error('MongoDB connection error:', error);
   });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+
+app.use(express.static(clientBuildPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+});

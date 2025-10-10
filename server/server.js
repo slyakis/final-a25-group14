@@ -105,24 +105,24 @@ app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bad-pizza-sad-pizza')
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-  });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
 
 app.use(express.static(clientBuildPath));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
+app.use((req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bad-pizza-sad-pizza')
+    .then(() => {
+      console.log('Connected to MongoDB');
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error('MongoDB connection error:', error);
+    });

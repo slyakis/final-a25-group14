@@ -38,7 +38,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
       let user = await User.findOne({ githubId: profile.id });
-      
+
       if (user) {
         user.username = profile.username;
         user.displayName = profile.displayName || profile.username;
@@ -54,7 +54,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
           profileUrl: profile.profileUrl,
           avatarUrl: profile.photos ? profile.photos[0].value : null
         });
-        
+
         await user.save();
         return done(null, user);
       }

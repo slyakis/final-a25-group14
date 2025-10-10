@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const Timer = ({ duration = 120, onTimeUp}) => {
+const Timer = ({ duration, onTimeUp}) => {
     const [timeRemaining, setTimeRemaining] = useState(duration);
     const [isRunning, setIsRunning] = useState(false);
 

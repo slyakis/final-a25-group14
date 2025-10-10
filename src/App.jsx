@@ -34,7 +34,7 @@ const sprites = {
     oven
 }
 
-function Header({user, onLogout, activeTab, setActiveTab, setRevenue}) {
+function Header({user, onLogout, activeTab, setActiveTab, resetGame}) {
     return (
         <div className="header">
             <span className="nes-text is-primary" id="title">Bad Pizza, Sad Pizza</span>
@@ -45,7 +45,6 @@ function Header({user, onLogout, activeTab, setActiveTab, setRevenue}) {
                     className={`nes-btn ${activeTab === 'game' ? 'is-primary' : ''}`}
                     onClick={() => {
                         setActiveTab('game')
-                        setRevenue(20)
                     }}
                 >
                     Game
@@ -53,14 +52,20 @@ function Header({user, onLogout, activeTab, setActiveTab, setRevenue}) {
                 <button
                     type="button"
                     className={`nes-btn ${activeTab === 'instructions' ? 'is-primary' : ''}`}
-                    onClick={() => setActiveTab('instructions')}
+                    onClick={() => {
+                        setActiveTab('instructions')
+                        resetGame()
+                    }}
                 >
                     How To Play
                 </button>
                 <button
                     type="button"
                     className={`nes-btn ${activeTab === 'leaderboard' ? 'is-primary' : ''}`}
-                    onClick={() => setActiveTab('leaderboard')}
+                    onClick={() => {
+                        setActiveTab('leaderboard')
+                        resetGame()
+                    }}
                 >
                     Leaderboard
                 </button>
@@ -337,6 +342,23 @@ function App() {
         setBaked(false);
     }
 
+    const resetGame = () => {
+        setIngredients({
+            sauce: 10,
+            cheese: 10,
+            pepperoni: 10,
+            mushroom: 10,
+            pepper: 10,
+            olive: 10
+        });
+        setRevenue(20);
+        setCurrentPizza([]);
+        setResetProgress(true);
+        setPizzasSold(0);
+        setIsBaking(false);
+        setBaked(false);
+    }
+
     const handleTimeUp = async () => {
         if (hasSaved) return;  // prevent double save
         setHasSaved(true);
@@ -387,7 +409,7 @@ function App() {
 
     return (
         <div className="gamePage">
-            <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} setRevenue={setRevenue} />
+            <Header user={user} onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab} setRevenue={setRevenue} resetGame={resetGame} />
             {activeTab === 'game' ? (
                 <GameplayArea handleClick={handleClick}
                               handleTrash={handleTrash}
@@ -431,7 +453,10 @@ function App() {
                             className="nes-btn is-success"
                             onClick={() => {
                                 setGameOver(false);
+                                setGameFinished(true);
                                 setActiveTab('leaderboard');
+                                setHasSaved(false);
+                                resetGame();
                             }}
                         >
                             View Leaderboard

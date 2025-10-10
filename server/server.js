@@ -37,7 +37,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: `${process.env.BASE_URL}/auth/github/callback`
+    callbackURL: `${process.env.BASE_URL || 'http://localhost:3001'}/auth/github/callback`
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
       let user = await User.findOne({ githubId: profile.id });
@@ -128,7 +128,6 @@ if (fs.existsSync(indexHtmlPath)) {
     res.status(404).send('Client not built. Please run npm run build in the repo root.');
   });
 }
-
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bad-pizza-sad-pizza')

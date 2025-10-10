@@ -219,6 +219,7 @@ function App() {
     const [baked, setBaked] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [resetProgress, setResetProgress] = useState(false);
+    const [hasSaved, setHasSaved] = useState(false);
 
     const showPopup = (message) => {
         const id = Date.now();
@@ -337,6 +338,9 @@ function App() {
     }
 
     const handleTimeUp = async () => {
+        if (hasSaved) return;  // prevent double save
+        setHasSaved(true);
+
         setGameFinished(true);
         setGameOver(true);
 
